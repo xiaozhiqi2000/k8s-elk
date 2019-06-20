@@ -2,7 +2,7 @@
 
 ## k8s master节点创建 elk 集群
 ```
-$ kubectl apply -f elk/
+$ kubectl apply -f ./
 
 $ kubectl get svc,pod  -n kube-system -o wide | egrep "kibana|elasticsearch|logstash"
 
@@ -16,9 +16,15 @@ pod/elasticsearch-logging-3                 1/1     Running   0          11m   1
 pod/elasticsearch-logging-4                 1/1     Running   0          11m   10.254.92.6    docker-k8s-03   <none>           <none>
 pod/kibana-logging-764ffc75fb-k7xpb         1/1     Running   0          10m   10.254.125.4   docker-k8s-02   <none>           <none>
 pod/logstash-application-64fc9b7c68-lghdg   1/1     Running   0          10m   10.254.92.7    docker-k8s-03   <none>           <none>
+
+$ kubectl cluster-info | egrep -i "elastic|kibana"
+Elasticsearch is running at https://127.0.0.1:6443/api/v1/namespaces/kube-system/services/elasticsearch-logging:db/proxy
+Kibana is running at https://127.0.0.1:6443/api/v1/namespaces/kube-system/services/kibana-logging/proxy
+
+浏览器访问即可
 ```
 
-## logstash要想外面通过5044端口搜集filebeat传过来的日志需要ingress tcp穿透
+## filebeat搜集日志通过k8s节点的5044端口发给logstash需要ingress-nginx tcp代理
 ```
 1. ingress-nginx 通过hostnetwork暴露端口
 2. hostnetwork 暴露了80,443,5044
