@@ -1,0 +1,1 @@
+NGINXHACK %{IPORHOST:clientip}\s*\[%{TIMESTAMP_ISO8601:timestamp_iso8601}\]\s*"%{WORD:verb}\s*%{HOSTNAME:http_host}%{URIPATHPARAM:request}"\s*"(?<hack_tag>[^"])"\s*"(?<agent>[^\"]*)"\s*"(%{IP:bind_ip}|(?<hackdata>[^"]*))"$

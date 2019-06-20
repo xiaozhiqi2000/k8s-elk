@@ -1,0 +1,1 @@
+ERRORRPC %{DATA:date_rpc} time:%{DATA:time_rpc} client:%{DATA:client_rpc} server:%{DATA:server_rpc} url:%{DATA:url_rpc} module:%{DATA:module_rpc} action:%{DATA:action_rpc} exception:%{DATA:exception_rpc} %{DATA:content_rpc}$

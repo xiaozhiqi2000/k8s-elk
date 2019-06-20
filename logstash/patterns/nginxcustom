@@ -1,0 +1,3 @@
+NGUSERNAME [a-zA-Z\.\@\-\+_%]+
+NGUSER %{NGUSERNAME}
+NGINXCUSTOM %{NOTSPACE:timemin} (?:%{NUMBER:response_time}|-) %{IPORHOST:clientip} - %{NGUSER:remote_user} \[%{HTTPDATE:timestamp}\] "%{WORD:verb} %{URIPATHPARAM:request} HTTP/%{NUMBER:httpversion}" %{NUMBER:response_statuscode} (?:%{NUMBER:bytes}|-) "(?:(?:%{URI:referrer}|-)|%{DATA:referrer})" "%{DATA:agent}" "(?<x_forwarded_for>%{IP:xff_clientip}(, .*)?|-|unknown)" "%{NOTSPACE:http_host}"

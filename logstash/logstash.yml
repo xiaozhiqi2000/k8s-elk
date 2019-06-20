@@ -1,0 +1,7 @@
+http.host: "0.0.0.0"
+log.level: warn
+path.logs: /var/log/logstash
+xpack.monitoring.enabled: false
+#xpack.monitoring.elasticsearch.url: "http://elasticsearch:9200"
+#xpack.monitoring.elasticsearch.username: "elastic"
+#xpack.monitoring.elasticsearch.password: "*7Cnh>mx2uhdDJ^FHvBQ"

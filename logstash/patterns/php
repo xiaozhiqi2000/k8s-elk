@@ -1,0 +1,3 @@
+PHP_DATE_TIME %{MONTHDAY}-%{MONTH}-%{YEAR}\s+%{TIME}
+PHP_FPM_SLOW_LOG_FIRST_LINE ^\[%{PHP_DATE_TIME:timestamp}\]\s*\[%{GREEDYDATA:php_fpm_pool}\] pid %{POSINT}
+PHP_FPM_SLOW_LOG ^\[%{GREEDYDATA:stack_addr}\] %{GREEDYDATA:func_name} %{UNIXPATH:script_path}
