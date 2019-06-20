@@ -37,6 +37,22 @@ pod/elasticsearch-logging-4                 1/1     Running   0          11m   1
 pod/kibana-logging-764ffc75fb-k7xpb         1/1     Running   0          10m   10.254.125.4   docker-k8s-02   <none>           <none>
 pod/logstash-application-64fc9b7c68-lghdg   1/1     Running   0          10m   10.254.92.7    docker-k8s-03   <none>           <none>
 
+$ kubectl get pv,pvc -n kube-system
+NAME                                                        CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                                                       STORAGECLASS   REASON   AGE
+persistentvolume/pvc-7659d0c3-9328-11e9-8061-beb7acb77999   50Gi       RWO            Retain           Bound    kube-system/elasticsearch-logging-elasticsearch-logging-0   elk-rbd                 140m
+persistentvolume/pvc-815f05ce-9328-11e9-8061-beb7acb77999   50Gi       RWO            Retain           Bound    kube-system/elasticsearch-logging-elasticsearch-logging-1   elk-rbd                 140m
+persistentvolume/pvc-8dd3a9d6-9328-11e9-8061-beb7acb77999   50Gi       RWO            Retain           Bound    kube-system/elasticsearch-logging-elasticsearch-logging-2   elk-rbd                 139m
+persistentvolume/pvc-aa42fe53-9328-11e9-8061-beb7acb77999   50Gi       RWO            Retain           Bound    kube-system/elasticsearch-logging-elasticsearch-logging-3   elk-rbd                 139m
+persistentvolume/pvc-b8b2439a-9328-11e9-8061-beb7acb77999   50Gi       RWO            Retain           Bound    kube-system/elasticsearch-logging-elasticsearch-logging-4   elk-rbd                 138m
+
+NAME                                                                  STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+persistentvolumeclaim/elasticsearch-logging-elasticsearch-logging-0   Bound    pvc-7659d0c3-9328-11e9-8061-beb7acb77999   50Gi       RWO            elk-rbd        140m
+persistentvolumeclaim/elasticsearch-logging-elasticsearch-logging-1   Bound    pvc-815f05ce-9328-11e9-8061-beb7acb77999   50Gi       RWO            elk-rbd        140m
+persistentvolumeclaim/elasticsearch-logging-elasticsearch-logging-2   Bound    pvc-8dd3a9d6-9328-11e9-8061-beb7acb77999   50Gi       RWO            elk-rbd        140m
+persistentvolumeclaim/elasticsearch-logging-elasticsearch-logging-3   Bound    pvc-aa42fe53-9328-11e9-8061-beb7acb77999   50Gi       RWO            elk-rbd        139m
+persistentvolumeclaim/elasticsearch-logging-elasticsearch-logging-4   Bound    pvc-b8b2439a-9328-11e9-8061-beb7acb77999   50Gi       RWO            elk-rbd        138m
+
+
 $ kubectl cluster-info | egrep -i "elastic|kibana"
 Elasticsearch is running at https://127.0.0.1:6443/api/v1/namespaces/kube-system/services/elasticsearch-logging:db/proxy
 Kibana is running at https://127.0.0.1:6443/api/v1/namespaces/kube-system/services/kibana-logging/proxy
