@@ -1,0 +1,87 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: logstash-application
+  namespace: kube-system
+data:
+  logstash.conf: |-
+    input {
+      beats {
+        port => 5044
+      }
+    }
+    output {
+      elasticsearch {
+        hosts => "elasticsearch-logging:9200"
+        template_overwrite => true
+        manage_template => false
+        document_type => "%{[@metadata][type]}"
+        index => "filebeat-%{[@metadata][type]}-%{+YYYY.MM.dd}"
+      }
+    }
+
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: logstash-application
+  namespace: kube-system
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: logstash-application
+    spec:
+      containers:
+      - image: docker.elastic.co/logstash/logstash:6.4.0
+        name: logstash-application
+        ports:
+        - name: logstash
+          containerPort: 5044
+          protocol: TCP
+        resources:
+          limits:
+            memory: 4Gi
+            cpu: "1000m"
+          requests:
+            memory: 2Gi
+            cpu: "100m"
+        env:
+        - name: XPACK_MONITORING_ELASTICSEARCH_URL
+          value: http://elasticsearch-logging:9200
+        - name: xpack.monitoring.enabled
+          value: "true"
+        - name: LS_JAVA_OPTS
+          value: "-Xms2048m -Xmx2048m"
+        volumeMounts:
+        - name: pipeline
+          mountPath: /usr/share/logstash/pipeline
+          readOnly: true
+        args:
+        - -f
+        - /usr/share/logstash/pipeline/logstash.conf
+      volumes:
+      - name: pipeline
+        configMap:
+          name: logstash-application
+          items:
+          - key: logstash.conf
+            path: logstash.conf
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: logstash-application
+  namespace: kube-system
+  labels:
+    app: logstash-application
+spec:
+  selector:
+    app: logstash-application
+  ports:
+  - name: logstash
+    port: 5044
+    targetPort: 5044
+    protocol: TCP

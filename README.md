@@ -1,8 +1,28 @@
 # k8s ELK
 
+## cephfs节点获取admin key
+```
+ceph auth get-key client.admin | base64
+QVFCSVNzMWJ6a05lR3hBQVFaS21Jc2tZZE94T0JxM2Q4eGY0UXc9PQ==
+```
+
+## k8s master节点创建 admin secret
+```
+$ kubectl apply -f ./cephfs/ceph-secret.yaml
+
+$ kubectl get secret -n kube-system
+```
+
+## k8s master节点创建 ceph storageclass
+```
+$ kubectl apply -f ./cephfs/rbd-storage-class.yaml
+
+$ kubectl get storageclass -n kube-system
+```
+
 ## k8s master节点创建 elk 集群
 ```
-$ kubectl apply -f ./
+$ kubectl apply -f es-statefulset-service.yaml -f kibana-deployment-service.yaml -f logstash-deployment-service.yaml
 
 $ kubectl get svc,pod  -n kube-system -o wide | egrep "kibana|elasticsearch|logstash"
 
@@ -72,3 +92,14 @@ Kibana is running at https://127.0.0.1:6443/api/v1/namespaces/kube-system/servic
           storage: 50Gi
 
 ```
+
+## 参考
+https://github.com/ITSvitCo/aws-k8s/tree/master/kubernetes-manifests/elasticsearch
+
+https://github.com/cocowool/k8s-go/tree/master/elk
+
+https://www.jianshu.com/p/af2eb5a75da8
+
+https://blog.csdn.net/qq_33547169/article/details/86629261
+
+https://www.qikqiak.com/post/install-efk-stack-on-k8s/

@@ -1,0 +1,51 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: logstash-application
+  namespace: kube-system
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: logstash-application
+    spec:
+      containers:
+      #- image: docker.elastic.co/logstash/logstash:6.4.0
+      - image: 192.168.1.240:5000/library/logstash:6.4.0-v1
+        name: logstash-application
+        ports:
+        - name: logstash
+          containerPort: 5044
+          protocol: TCP
+        resources:
+          limits:
+            memory: 4Gi
+            cpu: "1000m"
+          requests:
+            memory: 2Gi
+            cpu: "100m"
+        env:
+        - name: XPACK_MONITORING_ELASTICSEARCH_URL
+          value: http://elasticsearch-logging:9200
+        - name: xpack.monitoring.enabled
+          value: "true"
+        - name: LS_JAVA_OPTS
+          value: "-Xms2048m -Xmx2048m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: logstash-application
+  namespace: kube-system
+  labels:
+    app: logstash-application
+spec:
+  selector:
+    app: logstash-application
+  ports:
+  - name: logstash
+    port: 5044
+    targetPort: 5044
+    protocol: TCP
