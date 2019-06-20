@@ -149,7 +149,7 @@ spec:
       storageClassName: elk-rbd
       resources:
         requests:
-          storage: 20Gi
+          storage: 50Gi
 ---
 apiVersion: v1
 kind: Service
