@@ -1,9 +1,9 @@
 # k8s ELK
 
-## cephfs节点获取admin key
+## cephfs节点获取admin key 创建 ceph admin用户的 secret
 ```
-ceph auth get-key client.admin | base64
-QVFCSVNzMWJ6a05lR3hBQVFaS21Jc2tZZE94T0JxM2Q4eGY0UXc9PQ==
+$ ceph auth get-key client.admin | base64
+$ QVFCSVNzMWJ6a05lR3hBQVFaS21Jc2tZZE94T0JxM2Q4eGY0UXc9PQ==
 ```
 
 ## k8s master节点创建 admin secret
