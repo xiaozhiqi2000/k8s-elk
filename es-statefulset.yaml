@@ -136,7 +136,7 @@ spec:
         securityContext:
           privileged: true
       - name: elasticsearch-logging-increase-fd-ulimit
-        image: busybox
+        image: alpine:3.6
         command: ["sh", "-c", "ulimit -n 65536"]
         securityContext:
           privileged: true
