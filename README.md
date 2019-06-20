@@ -56,3 +56,19 @@ Kibana is running at https://127.0.0.1:6443/api/v1/namespaces/kube-system/servic
 252             - name: logstash
 253               containerPort: 5044  # 这里
 ```
+
+## elasticsearch如果用永久存储，编辑es-statefulset.yaml修改成自己的永久存储即可，我这里用的ceph rbd storageclass
+```
+  volumeClaimTemplates:
+  - metadata:
+      name: elasticsearch-logging
+      annotations:
+        volume.beta.kubernetes.io/storage-class: elk-rbd
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: elk-rbd
+      resources:
+        requests:
+          storage: 50Gi
+
+```
