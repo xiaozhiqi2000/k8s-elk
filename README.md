@@ -106,6 +106,33 @@ persistentvolumeclaim/elasticsearch-logging-elasticsearch-logging-4   Bound    p
 
 ```
 
+## ingress basic-auth认证
+```
+$ yum install httpd-tools -y
+
+$ htpasswd -c auth kibanauser
+New password: 123456
+Re-type new password: 123456
+Adding password for user kibanauser
+
+$ kubectl create secret generic basic-auth --from-file=auth -n kube-system --dry-run -o yaml > kibana-basic-auth.yaml
+$ cat kibana-basic-auth.yaml
+apiVersion: v1
+data:
+  auth: a2liYW5hdXNlcjokYXByMSRhYy5nLzhKdSRHVy5PbFA3enBkZGIxRDBUbGhKNWUwCg==
+  kind: Secret
+  metadata:
+    creationTimestamp: null
+      name: basic-auth
+        namespace: kube-system
+
+$ kubectl apply -f kibana-basic-auth.yaml
+
+$ kubectl get secret basic-auth -n kube-system -o yaml
+
+# 如果不需要认证就在ingress annotations去掉nginx.ingress.kubernetes.io/xxxx
+```
+
 ## 清理elasticsearch 索引
 ```
 $ kubectl apply -f es-index-rotator/rotator.yaml
