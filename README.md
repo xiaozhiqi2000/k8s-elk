@@ -22,7 +22,7 @@ $ kubectl get storageclass -n kube-system
 
 ## k8s master节点创建 elk 集群
 ```
-$ kubectl apply -f es-statefulset-service.yaml -f kibana-deployment-service.yaml -f logstash-deployment-service.yaml
+$ kubectl apply -f es-statefulset-service.yaml -f kibana-deployment-service.yaml -f logstash-deployment-service.yaml -f ingress-kibana.yaml
 
 $ kubectl get svc,pod  -n kube-system -o wide | egrep "kibana|elasticsearch|logstash"
 
@@ -53,11 +53,8 @@ persistentvolumeclaim/elasticsearch-logging-elasticsearch-logging-3   Bound    p
 persistentvolumeclaim/elasticsearch-logging-elasticsearch-logging-4   Bound    pvc-b8b2439a-9328-11e9-8061-beb7acb77999   50Gi       RWO            elk-rbd        138m
 
 
-$ kubectl cluster-info | egrep -i "elastic|kibana"
-Elasticsearch is running at https://127.0.0.1:6443/api/v1/namespaces/kube-system/services/elasticsearch-logging:db/proxy
-Kibana is running at https://127.0.0.1:6443/api/v1/namespaces/kube-system/services/kibana-logging/proxy
 
-浏览器访问即可
+查看ingress-kibana.yaml 绑定你的Hosts即可访问了浏览器访问即可
 ```
 
 ## filebeat搜集日志通过k8s节点的5044端口发给logstash需要ingress-nginx tcp代理
@@ -107,6 +104,11 @@ Kibana is running at https://127.0.0.1:6443/api/v1/namespaces/kube-system/servic
         requests:
           storage: 50Gi
 
+```
+
+## 清理elasticsearch 索引
+```
+$ kubectl apply -f es-index-rotator/rotator.yaml
 ```
 
 ## 参考
