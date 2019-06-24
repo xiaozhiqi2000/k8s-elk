@@ -139,12 +139,16 @@ $ kubectl apply -f es-index-rotator/rotator.yaml
 ```
 
 ## 参考
-https://github.com/ITSvitCo/aws-k8s/tree/master/kubernetes-manifests/elasticsearch
+elk部署    https://github.com/ITSvitCo/aws-k8s/tree/master/kubernetes-manifests/elasticsearch
 
-https://github.com/cocowool/k8s-go/tree/master/elk
+elk部署    https://github.com/cocowool/k8s-go/tree/master/elk
 
-https://www.jianshu.com/p/af2eb5a75da8
+elk部署    https://www.qikqiak.com/post/install-efk-stack-on-k8s/
 
-https://blog.csdn.net/qq_33547169/article/details/86629261
+elk部署    https://www.digitalocean.com/community/tutorials/how-to-set-up-an-elasticsearch-fluentd-and-kibana-efk-logging-stack-on-kubernetes
 
-https://www.qikqiak.com/post/install-efk-stack-on-k8s/
+elk部署    https://github.com/easzlab/kubeasz/blob/master/docs/guide/efk.md
+
+elk索引清理    https://github.com/kubeasz/dockerfiles/tree/master/es-index-rotator
+
+ingress认证    https://www.jianshu.com/p/4d5aa1995de3
